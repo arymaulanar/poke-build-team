@@ -1,0 +1,33 @@
+.container {
+    padding: 0 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.status {
+    display: flex; 
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.statusLoading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.loadingText {
+    font-weight: 700;
+}
+
+.statusError {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}

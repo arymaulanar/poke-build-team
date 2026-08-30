@@ -8,6 +8,6 @@ export async function fetchHandler<T>(
             `Error: ${response.status} ${response.statusText}`,
         );
     }
-    const data: unknown = await response.json();
-    return data as T
+    
+    return await response.json();
 }
