@@ -3,10 +3,10 @@
 import { Pokemon } from "@/lib/models/Pokemon";
 import { getPokemonPage } from "@/lib/service/fetchPokemonPage";
 import { useCallback, useEffect, useRef, useState } from "react";
-import PokemonItem from "../pokemon-item";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import Loading from "../loading";
 import styles from './pokemon-list.module.css'
+import { PokemonItem } from "../pokemon-item";
 
 type Props = {
     initialPokemons: Pokemon[];
@@ -92,7 +92,7 @@ export default function PokemonList({
                     <div className={styles.statusError}>
                         <p>{error}</p>
 
-                        <button onClick={fetchNextPage}>
+                        <button className={styles.button} onClick={fetchNextPage}>
                             Try again
                         </button>
                     </div>

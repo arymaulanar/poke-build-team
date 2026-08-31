@@ -1,0 +1,55 @@
+.roster {
+    width: 100%;
+    max-width: 320px;
+    border: 1px solid #333;
+    background: #fff;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #222;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    padding: 8px;
+    border-top: 1px solid #333;
+    font-size: 11px;
+}
+
+.footer strong {
+    font-weight: 700;
+}

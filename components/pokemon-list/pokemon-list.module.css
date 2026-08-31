@@ -31,3 +31,15 @@
     gap: 8px;
     align-items: center;
 }
+
+.button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: #d1d5db;
+    border: 2px solid black;
+    font-size: 14px;
+    color: black;
+    box-shadow: 2px 2px 0px #71717a, -2px -2px 0px #ffffff;
+    cursor: pointer;
+    outline: none;
+}

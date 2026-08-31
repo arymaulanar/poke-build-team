@@ -12,6 +12,12 @@
     font-weight: 700;
 }
 
+.counterContainer {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+}
 .counter {
     font-size: 24px;
     font-weight: 700;
