@@ -1,7 +1,7 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { Pokemon } from "@/lib/models/Pokemon";
-
-const MAX_ROSTER_SIZE = 6;
+import { MAX_ROSTER_SIZE } from "@/lib/utils/constants";
 
 type RosterState = {
     roster: Array<Pokemon | null>;
@@ -12,45 +12,63 @@ type RosterState = {
     isPokemonInRoster: (pokemonId: number) => boolean;
 };
 
-export const useRosterStore = create<RosterState>((set, get) => ({
-    roster: Array(MAX_ROSTER_SIZE).fill(null),
+const createEmptyRoster = (): Array<Pokemon | null> =>
+    Array(MAX_ROSTER_SIZE).fill(null);
 
-    addPokemon: (pokemon) => {
-        const { roster } = get();
+export const useRosterStore = create<RosterState>()(
+    persist(
+        (set, get) => ({
+            roster: createEmptyRoster(),
 
-        if (roster.some((item) => item?.id === pokemon.id)) {
-            return;
+            addPokemon: (pokemon) => {
+                const { roster } = get();
+
+                const alreadyExists = roster.some(
+                    (item) => item?.id === pokemon.id
+                );
+
+                if (alreadyExists) {
+                    return;
+                }
+
+                const emptySlotIndex = roster.findIndex(
+                    (item) => item === null
+                );
+
+                if (emptySlotIndex === -1) {
+                    return;
+                }
+
+                const nextRoster = [...roster];
+                nextRoster[emptySlotIndex] = pokemon;
+
+                set({
+                    roster: nextRoster,
+                });
+            },
+
+            removePokemon: (pokemonId) => {
+                set((state) => ({
+                    roster: state.roster.map((pokemon) =>
+                        pokemon?.id === pokemonId ? null : pokemon
+                    ),
+                }));
+            },
+
+            clearRoster: () => {
+                set({
+                    roster: createEmptyRoster(),
+                });
+            },
+
+            isPokemonInRoster: (pokemonId) => {
+                return get().roster.some(
+                    (pokemon) => pokemon?.id === pokemonId
+                );
+            },
+        }),
+        {
+            name: "pokemon-team-roster",
         }
-
-        const emptySlotIndex = roster.findIndex((item) => item === null);
-
-        if (emptySlotIndex === -1) {
-            return;
-        }
-
-        const nextRoster = [...roster];
-        nextRoster[emptySlotIndex] = pokemon;
-
-        set({
-            roster: nextRoster,
-        });
-    },
-
-    removePokemon: (pokemonId) => {
-        set((state) => ({
-            roster: state.roster.map((pokemon) =>
-                pokemon?.id === pokemonId ? null : pokemon
-            ),
-        }));
-    },
-
-    clearRoster: () => {
-        set({
-            roster: Array(MAX_ROSTER_SIZE).fill(null),
-        });
-    },
-
-    isPokemonInRoster: (pokemonId) => {
-        return get().roster.some((pokemon) => pokemon?.id === pokemonId);
-    },
-}));
+    )
+);

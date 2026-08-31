@@ -8,9 +8,7 @@ import { useRosterStore } from "@/lib/store/rosterStore";
 
 export function Footer() {
     const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
-
     const roster = useRosterStore((state) => state.roster);
-
     const rosterCount = roster.filter(Boolean).length;
 
     return (
