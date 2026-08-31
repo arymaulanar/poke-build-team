@@ -1,15 +1,34 @@
+"use client";
+
 import { Pokemon } from "@/lib/models/Pokemon";
+import { useRosterStore } from "@/lib/store/rosterStore";
+import {
+    getBackgroundTypeColor,
+    getContrastTextColor,
+} from "@/lib/utils/helper";
 import Image from "next/image";
-import styles from './pokemon-item.module.css'
-import { Pill } from "../pill";
 import React from "react";
-import { getBackgroundTypeColor, getContrastTextColor } from "@/lib/utils/helper";
+import { Pill } from "../pill";
+import styles from "./pokemon-item.module.css";
 
 interface PokemonItemProps {
     pokemon: Pokemon;
-};
+}
 
-export const PokemonItem: React.FC<PokemonItemProps> = ({ pokemon }: PokemonItemProps) => {
+export const PokemonItem: React.FC<PokemonItemProps> = ({ pokemon }) => {
+    const roster = useRosterStore((state) => state.roster);
+    const addPokemon = useRosterStore((state) => state.addPokemon);
+
+    const isInRoster = roster.some(
+        (item) => item?.id === pokemon.id
+    );
+
+    const isRosterFull = roster.every(
+        (item) => item !== null
+    );
+
+    const isDisabled = isInRoster || isRosterFull;
+
     return (
         <div className={styles.container}>
             {pokemon.sprite && (
@@ -27,12 +46,24 @@ export const PokemonItem: React.FC<PokemonItemProps> = ({ pokemon }: PokemonItem
             </h2>
 
             <div className={styles.badgeContainer}>
-                {pokemon.types.map(type => <Pill key={type + pokemon.id} text={type} textColorHex={getContrastTextColor(type)} backgroundHex={getBackgroundTypeColor(type)} />)}
+                {pokemon.types.map((type) => (
+                    <Pill
+                        key={type + pokemon.id}
+                        text={type}
+                        textColorHex={getContrastTextColor(type)}
+                        backgroundHex={getBackgroundTypeColor(type)}
+                    />
+                ))}
             </div>
 
-            <button className={styles.button} disabled>
-                {`Add to team`}
+            <button
+                type="button"
+                className={styles.button}
+                disabled={isDisabled}
+                onClick={() => addPokemon(pokemon)}
+            >
+                {isInRoster ? "Added to team" : "Add to team"}
             </button>
         </div>
     );
-}
+};

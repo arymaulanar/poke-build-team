@@ -1,5 +1,6 @@
 export const BASE_URL = "https://pokeapi.co/api/v2/"
 export const DEFAULT_PAGE_LIMIT = 10
+export const MAX_ROSTER_SIZE = 6
 
 export const POKEMON_TYPE_BG_COLORS: Record<string, string> = {
     normal: '#A8A878',

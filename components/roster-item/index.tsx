@@ -1,13 +1,18 @@
+"use client";
+
 import { Pokemon } from "@/lib/models/Pokemon";
 import { capitalize } from "@/lib/utils/helper";
 import Image from "next/image";
 import styles from "./roster-item.module.css";
+import { useRosterStore } from "@/lib/store/rosterStore";
 
 type RosterItemProps = {
-    pokemon?: Pokemon;
+    pokemon: Pokemon | null;
 };
 
 export default function RosterItem({ pokemon }: RosterItemProps) {
+    const removePokemon = useRosterStore((state) => state.removePokemon);
+
     if (!pokemon) {
         return (
             <div className={styles.empty}>
@@ -40,6 +45,15 @@ export default function RosterItem({ pokemon }: RosterItemProps) {
                         .join(" / ")}
                 </span>
             </div>
+
+            <button
+                type="button"
+                className={styles.deleteButton}
+                onClick={() => removePokemon(pokemon.id)}
+                aria-label={`Remove ${pokemon.name} from team`}
+            >
+                ×
+            </button>
         </div>
     );
 }
